@@ -34,12 +34,10 @@ public class StringResource extends AbstractResource {
       this(content,DEFAULT_DESCRIPTION,charset);
     }
 
-    @Override
     public String getDescription() {
         return description;
     }
 
-    @Override
     public InputStream getInputStream() throws IOException {
         return new ByteArrayInputStream(content.getBytes(charset));
     }
