@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+    <bean id="conversionService"
+          class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <set merge="true">
+                <bean class="eu.trojanbug.spring.converter.PropertiesToResourceConverter"/>
+                <bean class="eu.trojanbug.spring.converter.ResourceToPropertiesConverter"/>
+                <bean class="eu.trojanbug.spring.converter.test.helper.IntegerToTestClassConverter"/>
+                <bean class="eu.trojanbug.spring.converter.test.helper.TestClassToBigDecimalConverter" />
+                <!--<ref bean="chainingConverter"/>-->
+            </set>
+        </property>
+    </bean>
+
+    <bean id="chainingConverter" class="eu.trojanbug.spring.converter.ChainingConverter">
+        <property name="conversionService" ref="conversionService"/>
+        <property name="conversionPath">
+            <list>
+                <value>java.lang.String</value>
+                <value>java.lang.Integer</value>
+                <value>eu.trojanbug.spring.converter.test.helper.TestClass</value>
+                <value>java.math.BigDecimal</value>
+            </list>
+        </property>
+
+    </bean>
+
+
+</beans>
