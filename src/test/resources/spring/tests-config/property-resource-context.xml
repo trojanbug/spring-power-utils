@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean class="eu.trojanbug.spring.postprocessor.ConversionServiceSettingBeanDefinitionRegistryPostProcessor">
+        <property name="conversionService">
+            <bean class="org.springframework.context.support.ConversionServiceFactoryBean">
+                <property name="converters">
+                    <set merge="true">
+
+                        <!-- this one converts a property object into a Resource,
+                        so that it can be set where Resource is expected, and the InputStream will contain serialized properties -->
+                        <!-- for illustration purposes only, I know I could set local properties on a different property -->
+                        <bean class="eu.trojanbug.spring.converter.PropertiesToResourceConverter"/>
+                        <bean class="eu.trojanbug.spring.converter.ResourceToPropertiesConverter"/>
+                    </set>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- PropertyPlaceholderConfigurer shoudl be injected with Resource - but it will fail, as it does not use ConversioService configured -->
+    <bean id="propertyPlaceholderConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <ref bean="propertiesResource"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="propertiesResource" class="eu.trojanbug.spring.resource.PropertiesResource">
+        <constructor-arg>
+            <props>
+                <prop key="testProperty1">50</prop>
+            </props>
+        </constructor-arg>
+    </bean>
+
+    <bean id="inlineProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="properties">
+            <props>
+                <prop key="testProperty2">100</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="targetProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="location" ref="inlineProperties"/>
+    </bean>
+
+    <bean id="testBean1" class="eu.trojanbug.spring.converter.test.helper.TestClass">
+        <constructor-arg value="${testProperty1}"/>
+    </bean>
+</beans>

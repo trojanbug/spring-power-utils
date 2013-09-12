@@ -8,7 +8,6 @@ import java.util.Properties;
 
 public class PropertiesToResourceConverter implements Converter<Properties, Resource> {
 
-    @Override
     public Resource convert(Properties properties) {
         return new PropertiesResource(properties);
     }

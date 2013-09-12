@@ -9,7 +9,6 @@ import java.util.Properties;
 
 public class ResourceToPropertiesConverter implements Converter<Resource, Properties> {
 
-    @Override
     public Properties convert(Resource resource) {
         Properties props = new Properties();
         if (resource != null) {

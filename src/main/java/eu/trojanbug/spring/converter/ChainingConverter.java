@@ -12,13 +12,11 @@ public class ChainingConverter implements GenericConverter {
     private List<Class> conversionPath;
     private ConversionService conversionService = new DefaultConversionService();
 
-    @Override
     public Set<ConvertiblePair> getConvertibleTypes() {
         ConvertiblePair cp = new ConvertiblePair(conversionPath.get(0),conversionPath.get(conversionPath.size()-1));
         return new HashSet<ConvertiblePair>(Arrays.asList(cp));
     }
 
-    @Override
     public Object convert(Object source, TypeDescriptor sourceType, TypeDescriptor targetType) {
         Object target = source;
         for (Class nextClass : conversionPath) {

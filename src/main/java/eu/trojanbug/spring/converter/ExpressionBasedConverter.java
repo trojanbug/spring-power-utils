@@ -29,12 +29,10 @@ public class ExpressionBasedConverter implements GenericConverter, InitializingB
     private ApplicationContext applicationContext;
     private Map<String, Object> contextVariables;
 
-    @Override
     public Set<ConvertiblePair> getConvertibleTypes() {
         return convertiblePairs;
     }
 
-    @Override
     public Object convert(Object source, TypeDescriptor sourceType, TypeDescriptor targetType) {
         StandardEvaluationContext evaluationContext = new StandardEvaluationContext();
         //evaluationContext.setRootObject(source);
@@ -54,7 +52,6 @@ public class ExpressionBasedConverter implements GenericConverter, InitializingB
         return expressionCompiled.getValue(evaluationContext, targetType.getType());
     }
 
-    @Override
     public void afterPropertiesSet() throws Exception {
         if (sourceClass != null && targetClass != null) {
             convertiblePairs = new HashSet<ConvertiblePair>();
@@ -99,12 +96,10 @@ public class ExpressionBasedConverter implements GenericConverter, InitializingB
         this.conversionExpression = conversionExpression;
     }
 
-    @Override
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
         this.beanFactory = beanFactory;
     }
 
-    @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }
