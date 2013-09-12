@@ -1,6 +1,5 @@
 package eu.trojanbug.spring.converter;
 
-import eu.trojanbug.spring.resource.BufferingInputStreamResource;
 import eu.trojanbug.spring.resource.TempFileBufferedResource;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.io.Resource;
@@ -12,7 +11,7 @@ public class ResourceToTempFileBufferedResourceConverter implements Converter<Re
         try {
             return new TempFileBufferedResource(source);
         } catch (IOException e) {
-            throw new IllegalArgumentException("Could not get read from provided resource: " + source, e);
+            throw new IllegalArgumentException("Could not read from provided resource: " + source, e);
         }
     }
 }
