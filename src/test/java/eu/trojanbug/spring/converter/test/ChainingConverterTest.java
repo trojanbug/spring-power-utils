@@ -1,7 +1,7 @@
 package eu.trojanbug.spring.converter.test;
 
-import eu.trojanbug.spring.converter.ChainingConverter;
 import eu.trojanbug.spring.converter.test.helper.TestClass;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -16,14 +16,14 @@ import java.math.BigDecimal;
 @ContextConfiguration(locations = "classpath:/spring/tests-config/chaining-converter-context.xml")
 public class ChainingConverterTest extends AbstractTestNGSpringContextTests {
 
-    @Resource(name = "chainingConverter")
-    ChainingConverter chainingConverter;
+    @Resource(name = "conversionService")
+    ConversionService conversionService;
 
     @Test
     public void testChainingConverter() {
-        Object testResult = chainingConverter.convert("257", TypeDescriptor.valueOf(String.class), TypeDescriptor.valueOf(TestClass.class));
+        TestClass testResult = (TestClass) conversionService.convert("257", TypeDescriptor.valueOf(String.class), TypeDescriptor.valueOf(TestClass.class));
         Assert.notNull(testResult);
-        Assert.isTrue(testResult.equals(BigDecimal.valueOf(257)));
+        Assert.isTrue(testResult.getBigDecimal().equals(BigDecimal.valueOf(257)));
     }
 
 
