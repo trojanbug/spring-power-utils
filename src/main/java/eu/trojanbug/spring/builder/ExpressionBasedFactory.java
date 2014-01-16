@@ -32,14 +32,19 @@ public class ExpressionBasedFactory implements FactoryBean, BeanFactoryAware {
         return this.expression.getExpressionString();
     }
 
-    public Object getObject() throws Exception {
+    public synchronized Object getObject() throws Exception {
         StandardEvaluationContext context = new StandardEvaluationContext();
         context.setBeanResolver(beanResolver);
 
-        if (objectType != null)
-            return expression.getValue(context, objectType);
-        else
-            return expression.getValue(context);
+        if (isSingleton()) {
+           if (singletonInstance == null) {
+              singletonInstance = (objectType != null) ? expression.getValue(context, objectType) : expression.getValue(context);
+              setObjectType(singletonInstance.getClass());
+           }
+           return singletonInstance;
+        }
+
+        return (objectType != null) ? expression.getValue(context, objectType) : expression.getValue(context);
     }
 
     public Class<?> getObjectType() {
