@@ -19,6 +19,8 @@
                                     <property name="targetBeanName" value="conversionService"/>
                                 </bean>
                             </property>
+                            <property name="autodetectInterfaces" value="false"/>
+                            <property name="proxyInterfaces" value="org.springframework.core.convert.ConversionService"/>
                         </bean>
                     </property>
                     <property name="conversionPath">
@@ -37,6 +39,8 @@
                                     <property name="targetBeanName" value="conversionService"/>
                                 </bean>
                             </property>
+                            <property name="autodetectInterfaces" value="false"/>
+                            <property name="proxyInterfaces" value="org.springframework.core.convert.ConversionService"/>
                         </bean>
                     </property>
                     <property name="conversionPath">
